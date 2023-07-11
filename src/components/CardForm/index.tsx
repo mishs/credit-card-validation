@@ -61,9 +61,25 @@ export default function CardForm(props: CardFormProps) {
 
   const handleFormChangeCountry = (event: { target: { value: string; name: string }; }) => {
     const { name, value } = event.target;
-    if (bannedCountries.includes(value)) return; // prevent banned countries
+    const newErrors = { ...errors };
+
+    if (bannedCountries.includes(value)) {
+      // prevent banned countries
+      newErrors.cardCountry = 'This country is not allowed';
+      setErrors(newErrors);
+      return;
+    } else if (value.trim() === '') {
+      newErrors.cardCountry = 'Country field cannot be empty';
+      setErrors(newErrors);
+      return;
+    }
+
+    // if there are no errors, clear the error message for cardCountry and update the form state
+    newErrors.cardCountry = '';
+    setErrors(newErrors);
     onUpdateState(name, value);
   };
+
 
   const handleConfirmAction = (e: any) => {
     // validate errors
