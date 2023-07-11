@@ -1,5 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import {
   CSSTransition,
   SwitchTransition,
@@ -41,6 +41,18 @@ function Card(props: CardProp) {
     cardCountry, // Destructure cardCountry prop
   } = props;
 
+  const countryRef = useRef<HTMLSpanElement | null>(null);
+
+  useEffect(() => {
+    if (countryRef.current) {
+      countryRef.current.style.fontSize = "initial";
+      while (countryRef.current && countryRef.current.scrollHeight > countryRef.current.offsetHeight) {
+        countryRef.current.style.fontSize = `${parseInt(getComputedStyle(countryRef.current).fontSize) - 1}px`;
+      }
+    }
+  }, [cardCountry]);
+
+
   const cardType = (cardNumber: any) => {
     const number = cardNumber;
     let re;
@@ -70,6 +82,8 @@ function Card(props: CardProp) {
 
     return cardNumberArr;
   };
+
+
 
   return (
     <div className={'card-item ' + (isCardFlipped ? '-active' : '')}>

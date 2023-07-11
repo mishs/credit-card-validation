@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
-import { Button, Form } from 'react-bootstrap';
+import React, { useEffect, useState } from 'react';
+import { Button, Form, Modal } from 'react-bootstrap';
 import { CreditCard } from '../../CardManager/CreditCard';
+import BannedCountriesModal from './BannedCountriesModal';
+import DisappearingAlert from './DisappearingAlert';
 
 const currentYear = new Date().getFullYear();
 const monthsArr = Array.from({ length: 12 }, (x, i) => {
@@ -23,6 +25,7 @@ export default function CardForm(props: CardFormProps) {
     handleSubmitAction,
     children,
   } = props;
+
   const [errors, setErrors] = useState<CreditCard>({
     id: '',
     cardNumber: '',
@@ -32,6 +35,47 @@ export default function CardForm(props: CardFormProps) {
     cardCvv: '',
     cardCountry: '',
   });
+
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [closeModalTimeout, setCloseModalTimeout] = useState<NodeJS.Timeout | null>(null);
+
+  const handleCountryFocus = () => {
+    setShowModal(true);
+    if (closeModalTimeout) {
+      clearTimeout(closeModalTimeout);
+    }
+    setCloseModalTimeout(
+      setTimeout(() => {
+        setShowModal(false);
+      }, 4000) // 4 seconds
+    );
+  };
+
+  const handleCloseModal = () => {
+    if (closeModalTimeout) {
+      clearTimeout(closeModalTimeout);
+    }
+    setShowModal(false);
+  };
+
+  // useEffect(() => {
+  //   let timer: NodeJS.Timeout;
+  //   if (showModal) {
+  //     timer = setTimeout(() => {
+  //       setShowModal(false);
+  //     }, 4000); // 4 seconds
+  //   }
+
+  //   // Clear timeout when showModal changes to false
+  //   return () => {
+  //     if (timer) clearTimeout(timer);
+  //   };
+  // }, [showModal]);
+
+  // const handleCountryFocus = () => {
+  //   setShowModal(true);
+  // };
+
 
   const handleFormChange = (event: {
     target: { name: string; value: string };
@@ -58,6 +102,7 @@ export default function CardForm(props: CardFormProps) {
   };
 
   const bannedCountries = ['Country1', 'Country2', 'Country3', 'Country4', 'Country5']; // your banned countries here
+
 
   const handleFormChangeCountry = (event: { target: { value: string; name: string }; }) => {
     const { name, value } = event.target;
@@ -135,6 +180,13 @@ export default function CardForm(props: CardFormProps) {
 
   return (
     <div className="card-form">
+      {/* <BannedCountriesModal
+        show={showModal}
+        onHide={handleCloseModal}
+        bannedCountries={bannedCountries}
+      /> */}
+      <DisappearingAlert bannedCountries={bannedCountries} message="This alert will disappear in 5 seconds." timeout={5000} show={undefined} />
+
       <div className="card-list">{children}</div>
       <div className="card-form__inner">
         <div className="card-input">
@@ -262,6 +314,9 @@ export default function CardForm(props: CardFormProps) {
                 onChange={handleFormChangeCountry}
                 value={selectedCreditCard.cardCountry}
                 isInvalid={!!errors.cardCountry}
+                onFocus={handleCountryFocus}
+                onClick={handleCountryFocus}
+              // onBlur={handleCountryBlur}
               />
               <Form.Control.Feedback type="invalid">
                 {errors.cardCountry}
