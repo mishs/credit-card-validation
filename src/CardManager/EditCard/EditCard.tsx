@@ -16,7 +16,7 @@ const initialState: CreditCard = {
   cardMonth: '',
   cardYear: '',
   cardCvv: '',
-  // cardCountry: ''
+  cardCountry: ''
 };
 
 export default function EditCard() {
@@ -104,7 +104,7 @@ export default function EditCard() {
               cardYear={state.cardYear}
               cardCvv={state.cardCvv}
               isCardFlipped={isCardFlipped}
-            // cardCountry={undefined}            
+              cardCountry={state.cardCountry}
             ></Card>
           </CardForm>
         </div>

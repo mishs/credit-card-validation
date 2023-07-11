@@ -1,12 +1,13 @@
 export interface CreditCard {
-  // cardCountry: string;
   id: string;
   cardNumber: string;
   cardHolder: string;
   cardMonth: string;
   cardYear: string;
   cardCvv: string;
+  cardCountry: string;
 }
+
 export interface AddEditCard extends CreditCard {
   isCardFlipped: boolean;
 }
@@ -22,7 +23,7 @@ export class CreditCardAPI {
         cardMonth: '01',
         cardYear: '2023',
         cardCvv: '1111',
-        // cardCountry: 'South Africa'
+        cardCountry: 'South Africa'
       },
       {
         id: 'b8262cc8-6506-46f2-925a-819729b224ec',
@@ -31,7 +32,7 @@ export class CreditCardAPI {
         cardMonth: '02',
         cardYear: '2024',
         cardCvv: '2222',
-        // cardCountry: 'South Africa'
+        cardCountry: 'South Africa'
       },
     ];
     let creditCardsList: CreditCard[] = [];

@@ -27,7 +27,7 @@ interface CardProp {
   cardYear: any;
   cardCvv: any;
   isCardFlipped: any;
-  // cardCountry: any; // Add cardCountry prop
+  cardCountry: any; // Add cardCountry prop
 }
 
 function Card(props: CardProp) {
@@ -38,7 +38,7 @@ function Card(props: CardProp) {
     cardYear,
     cardCvv,
     isCardFlipped,
-    // cardCountry, // Destructure cardCountry prop
+    cardCountry, // Destructure cardCountry prop
   } = props;
 
   const cardType = (cardNumber: any) => {
@@ -118,6 +118,9 @@ function Card(props: CardProp) {
               )}
             </TransitionGroup>
           </label>
+
+
+
           <div className="card-item__content">
             <label className="card-item__info">
               <div className="card-item__holder">Card Holder</div>
@@ -151,6 +154,24 @@ function Card(props: CardProp) {
 
 
             <div className="card-item__date">
+              <label className="card-item__dateTitle">Country</label>
+              <label className="card-item__dateItem">
+                <SwitchTransition in-out>
+                  <CSSTransition
+                    classNames="slide-fade-up"
+                    timeout={200}
+                    key={cardCountry}
+                  >
+                    <span>{!cardCountry ? 'Unknown' : cardCountry} </span>
+                  </CSSTransition>
+                </SwitchTransition>
+              </label>
+            </div>
+
+            <div className="card-item__date">
+
+
+
               <label className="card-item__dateTitle">Expires</label>
               <label className="card-item__dateItem">
                 <SwitchTransition in-out>

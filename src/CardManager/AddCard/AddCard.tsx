@@ -12,7 +12,7 @@ const initialState: CreditCard = {
   cardMonth: '',
   cardYear: '',
   cardCvv: '',
-  // cardCountry: '',
+  cardCountry: '',
 };
 
 export default function AddCard() {
@@ -69,7 +69,7 @@ export default function AddCard() {
               cardMonth={state.cardMonth}
               cardYear={state.cardYear}
               cardCvv={state.cardCvv}
-              // cardCountry={state.cardCountry}
+              cardCountry={state.cardCountry}
               isCardFlipped={isCardFlipped}
             />
           </CardForm>

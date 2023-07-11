@@ -53,7 +53,7 @@ export default function Cards() {
                   cardYear={card.cardYear}
                   cardCvv={card.cardCvv}
                   isCardFlipped={false}
-                // cardCountry={undefined}                
+                  cardCountry={card.cardCountry}
                 ></CreditCardBox>
               </Link>
             </Col>

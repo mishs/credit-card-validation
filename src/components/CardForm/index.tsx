@@ -29,8 +29,8 @@ export default function CardForm(props: CardFormProps) {
     cardHolder: '',
     cardMonth: '',
     cardYear: '',
-    cardCvv: ''
-    // cardCountry: '',
+    cardCvv: '',
+    cardCountry: '',
   });
 
   const handleFormChange = (event: {
@@ -57,6 +57,14 @@ export default function CardForm(props: CardFormProps) {
     setIsCardFlipped(false);
   };
 
+  const bannedCountries = ['Country1', 'Country2', 'Country3', 'Country4', 'Country5']; // your banned countries here
+
+  const handleFormChangeCountry = (event: { target: { value: string; name: string }; }) => {
+    const { name, value } = event.target;
+    if (bannedCountries.includes(value)) return; // prevent banned countries
+    onUpdateState(name, value);
+  };
+
   const handleConfirmAction = (e: any) => {
     // validate errors
     if (!isFormHasErrors()) {
@@ -71,7 +79,7 @@ export default function CardForm(props: CardFormProps) {
       cardMonth: '',
       cardYear: '',
       cardCvv: '',
-      // cardCountry: '',
+      cardCountry: '',
     };
     //first validate blank fields
     let isErrorFlag = false;
@@ -99,6 +107,12 @@ export default function CardForm(props: CardFormProps) {
       newErrors.cardCvv = 'Card number should be 4 digits';
       isErrorFlag = true;
     }
+
+    if (bannedCountries.includes(selectedCreditCard['cardCountry'])) {
+      newErrors.cardCountry = 'This country is not allowed';
+      isErrorFlag = true;
+    }
+
     setErrors(newErrors);
     return isErrorFlag;
   };
@@ -217,6 +231,29 @@ export default function CardForm(props: CardFormProps) {
             </div>
           </div>
         </div>
+
+        <div className="card-form__row">
+          <div className="card-form__col">
+            <div className="card-input">
+              <label htmlFor="cardCountry" className="card-input__label">
+                Country
+              </label>
+              <Form.Control
+                type="text"
+                className="card-input__input"
+                autoComplete="off"
+                name="cardCountry"
+                onChange={handleFormChangeCountry}
+                value={selectedCreditCard.cardCountry}
+                isInvalid={!!errors.cardCountry}
+              />
+              <Form.Control.Feedback type="invalid">
+                {errors.cardCountry}
+              </Form.Control.Feedback>
+            </div>
+          </div>
+        </div>
+
         <div className="card-form__row">
           <div className="card-form__col">
             <div className="d-grid gap-2">
