@@ -1,5 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import React, { useEffect, useMemo, useRef } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
   CSSTransition,
   SwitchTransition,
@@ -43,15 +43,11 @@ function Card(props: CardProp) {
 
   const countryRef = useRef<HTMLSpanElement | null>(null);
 
-  useEffect(() => {
-    if (countryRef.current) {
-      countryRef.current.style.fontSize = "initial";
-      while (countryRef.current && countryRef.current.scrollHeight > countryRef.current.offsetHeight) {
-        countryRef.current.style.fontSize = `${parseInt(getComputedStyle(countryRef.current).fontSize) - 1}px`;
-      }
-    }
-  }, [cardCountry]);
+  const [fontSize, setFontSize] = useState<string>("1em");
 
+  useEffect(() => {
+    setFontSize(cardCountry && cardCountry.length > 16 ? "0.75em" : "1em");
+  }, [cardCountry]);
 
   const cardType = (cardNumber: any) => {
     const number = cardNumber;
@@ -84,6 +80,7 @@ function Card(props: CardProp) {
   };
 
 
+  const countryText = cardCountry ? cardCountry.slice(0, 16) : 'Unknown';
 
   return (
     <div className={'card-item ' + (isCardFlipped ? '-active' : '')}>
@@ -166,8 +163,7 @@ function Card(props: CardProp) {
               </div>
             </label>
 
-
-            <div className="card-item__date">
+            <div className="card-item__country">
               <label className="card-item__dateTitle">Country</label>
               <label className="card-item__dateItem">
                 <SwitchTransition in-out>
@@ -176,7 +172,19 @@ function Card(props: CardProp) {
                     timeout={200}
                     key={cardCountry}
                   >
-                    <span>{!cardCountry ? 'Unknown' : cardCountry} </span>
+                    <span
+                      ref={countryRef}
+                      style={{
+                        display: '-webkit-box',
+                        width: '60px',
+                        overflowWrap: 'break-word',
+                        WebkitLineClamp: '2',
+                        WebkitBoxOrient: 'vertical',
+                        fontSize: fontSize
+                      }}
+                    >
+                      {countryText}
+                    </span>
                   </CSSTransition>
                 </SwitchTransition>
               </label>
