@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/credit-card-validation/static/css/main.1f7c4d9c.css",
+    "main.js": "/credit-card-validation/static/js/main.eec15810.js",
+    "static/media/lineto-circular-pro-book.woff": "/credit-card-validation/static/media/lineto-circular-pro-book.100eae788e074274b5a8.woff",
+    "static/media/lineto-circular-pro-book.woff2": "/credit-card-validation/static/media/lineto-circular-pro-book.ae8f3870010ae155037b.woff2",
+    "index.html": "/credit-card-validation/index.html",
+    "main.1f7c4d9c.css.map": "/credit-card-validation/static/css/main.1f7c4d9c.css.map",
+    "main.eec15810.js.map": "/credit-card-validation/static/js/main.eec15810.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.1f7c4d9c.css",
+    "static/js/main.eec15810.js"
+  ]
+}
