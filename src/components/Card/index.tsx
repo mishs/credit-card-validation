@@ -7,91 +7,65 @@ import {
 } from 'react-transition-group';
 import './styles.scss';
 
-const CARDS = {
+interface CardProp {
+  cardHolder: string;
+  cardNumber: string;
+  cardMonth: string;
+  cardYear: string;
+  cardCvv: string;
+  isCardFlipped: boolean;
+  cardCountry: string;
+}
+
+const CARD_TYPES = {
   visa: '^4',
-  mastercard: '^5[1-5]', //first digit 5 , 2nd digit from 1-5 ..
+  mastercard: '^5[1-5]',
   discover: '^6011',
   maestro: '^62',
 };
 
-const cardBackgroundName = () => {
-  return `${'credit_card_bg'}.jpeg`;
-};
-
-const BACKGROUND_IMG = cardBackgroundName();
-
-interface CardProp {
-  cardHolder: any;
-  cardNumber: any;
-  cardMonth: any;
-  cardYear: any;
-  cardCvv: any;
-  isCardFlipped: any;
-  cardCountry: any; // Add cardCountry prop
-}
-
-function Card(props: CardProp) {
-  const {
-    cardHolder,
-    cardNumber,
-    cardMonth,
-    cardYear,
-    cardCvv,
-    isCardFlipped,
-    cardCountry, // Destructure cardCountry prop
-  } = props;
-
+const Card = ({
+  cardHolder,
+  cardNumber,
+  cardMonth,
+  cardYear,
+  cardCvv,
+  isCardFlipped,
+  cardCountry
+}: CardProp) => {
   const countryRef = useRef<HTMLSpanElement | null>(null);
-
   const [fontSize, setFontSize] = useState<string>("1em");
 
-  useEffect(() => {
-    setFontSize(cardCountry && cardCountry.length > 16 ? "0.75em" : "1em");
-  }, [cardCountry]);
-
-  const cardType = (cardNumber: any) => {
-    const number = cardNumber;
+  const cardType = (cardNumber: string) => {
     let re;
-    for (const [card, pattern] of Object.entries(CARDS)) {
+    for (const [card, pattern] of Object.entries(CARD_TYPES)) {
       re = new RegExp(pattern);
-      if (number.match(re) != null) {
+      if (cardNumber.match(re) !== null) {
         return card;
       }
     }
-
-    return 'visa'; // default type
+    return 'visa';
   };
 
-  const useCardType = useMemo(() => {
-    return cardType(cardNumber);
-  }, [cardNumber]);
+  const useCardType = useMemo(() => cardType(cardNumber), [cardNumber]);
 
   const maskCardNumber = (cardNumber: string) => {
-    const cardNumberArr = cardNumber.split('');
-    cardNumberArr.forEach((val, index) => {
-      if (index > 4 && index < 14) {
-        if (cardNumberArr[index] !== ' ') {
-          cardNumberArr[index] = '*';
-        }
-      }
-    });
-
-    return cardNumberArr;
+    return cardNumber.split('').map((val, index) =>
+      index > 4 && index < 14 && val !== ' ' ? '*' : val
+    );
   };
 
-
   const countryText = cardCountry ? cardCountry.slice(0, 16) : 'Unknown';
+
+  useEffect(() => {
+    setFontSize(cardCountry.length > 16 ? "0.75em" : "1em");
+  }, [cardCountry]);
 
   return (
     <div className={'card-item ' + (isCardFlipped ? '-active' : '')}>
       <div className="card-item__side -front">
         <div className={`card-item__focus`} />
         <div className="card-item__cover">
-          <img
-            alt=""
-            src={`/card-background/${BACKGROUND_IMG}`}
-            className="card-item__bg"
-          />
         </div>
 
         <div className="card-item__wrapper">
@@ -190,10 +164,8 @@ function Card(props: CardProp) {
               </label>
             </div>
 
+
             <div className="card-item__date">
-
-
-
               <label className="card-item__dateTitle">Expires</label>
               <label className="card-item__dateItem">
                 <SwitchTransition in-out>
@@ -227,11 +199,6 @@ function Card(props: CardProp) {
 
       <div className="card-item__side -back">
         <div className="card-item__cover">
-          <img
-            alt=""
-            src={`/card-background/${BACKGROUND_IMG}`}
-            className="card-item__bg"
-          />
         </div>
         <div className="card-item__band" />
         <div className="card-item__cvv">
