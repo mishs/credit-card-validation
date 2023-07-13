@@ -20,8 +20,8 @@ export default function Cards() {
 
   return (
     <>
-      <h1 className="home-page-heading">Your Cards</h1>
-      <Container>
+      <h1 className="home-page-heading mt-2">Your Cards</h1>
+      <Container className="mt-5">
         <Row className="justify-content-center">
           {cardsData.length === 0 && (
             <>
@@ -63,7 +63,7 @@ export default function Cards() {
           <Col md={4} className="mt-3">
             <Button
               className="add-new-card"
-              variant="primary"
+              variant="success"
               size="lg"
               onClick={() => navigate('add-card')}
             >
