@@ -1,5 +1,5 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import {
   CSSTransition,
   SwitchTransition,

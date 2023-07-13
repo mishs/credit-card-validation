@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { Button, Form, Modal } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Button, Form } from 'react-bootstrap';
 import { CreditCard } from '../../CardManager/CreditCard';
-import BannedCountriesModal from './BannedCountriesModal';
 import DisappearingAlert from './DisappearingAlert';
 
 const currentYear = new Date().getFullYear();
@@ -58,25 +57,6 @@ export default function CardForm(props: CardFormProps) {
     setShowModal(false);
   };
 
-  // useEffect(() => {
-  //   let timer: NodeJS.Timeout;
-  //   if (showModal) {
-  //     timer = setTimeout(() => {
-  //       setShowModal(false);
-  //     }, 4000); // 4 seconds
-  //   }
-
-  //   // Clear timeout when showModal changes to false
-  //   return () => {
-  //     if (timer) clearTimeout(timer);
-  //   };
-  // }, [showModal]);
-
-  // const handleCountryFocus = () => {
-  //   setShowModal(true);
-  // };
-
-
   const handleFormChange = (event: {
     target: { name: string; value: string };
   }) => {
@@ -119,7 +99,6 @@ export default function CardForm(props: CardFormProps) {
       return;
     }
 
-    // if there are no errors, clear the error message for cardCountry and update the form state
     newErrors.cardCountry = '';
     setErrors(newErrors);
     onUpdateState(name, value);
@@ -328,7 +307,8 @@ export default function CardForm(props: CardFormProps) {
         <div className="card-form__row">
           <div className="card-form__col">
             <div className="d-grid gap-2">
-              <Button variant="success" size="lg" onClick={handleConfirmAction}>
+              <Button className="add-new-card"
+                variant="success" size="lg" onClick={handleConfirmAction}>
                 Confirm
               </Button>{' '}
             </div>

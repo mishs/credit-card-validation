@@ -1,6 +1,6 @@
 # Credit Card Validation app
 
-Credit Card Validation app - React, Typescript, sass, etc
+Credit Card Validation app - Typescript, sass, etc
 
 ## Demo video
 
